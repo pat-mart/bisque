@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import {Inter, Open_Sans, Plus_Jakarta_Sans} from "next/font/google";
 import "./globals.css";
+import Header from '@/app/components/header/header'
+import {NextFont} from 'next/dist/compiled/@next/font'
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -9,6 +11,16 @@ export const metadata: Metadata = {
   description: "by Patrick Martin",
 };
 
+const openSans: NextFont = Open_Sans({
+    subsets: ['latin'],
+    display: 'swap'
+})
+
+const jakartaSans: NextFont = Plus_Jakarta_Sans({
+    subsets: ['latin'],
+    display: 'swap'
+})
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -16,7 +28,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={openSans.className}>
+        {children}
+      </body>
     </html>
   );
 }

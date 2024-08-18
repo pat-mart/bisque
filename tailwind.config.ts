@@ -33,7 +33,7 @@ const config: Config = {
     },
 
     fontFamily: {
-      sans: ['Helvetica', 'sans-serif'],
+      sans: ['Futura', 'sans-serif'],
       serif: ['Merriweather', 'serif']
     }
   },

@@ -1,12 +1,13 @@
 'use client'
 
 import React, {useState, useEffect} from "react";
-import Sidebar from "@/app/components/sidebar/sidebar";
+import Sidebar from "@/app/components/header/sidebar";
 import XIcon from '../../../../public/images/x-icon'
 import SearchIcon from '../../../../public/images/search-icon'
 import NotiIcon from '../../../../public/images/noti-icon'
+import PlusIcon from '../../../../public/images/plus-icon'
 
-export default function Header({isSignedIn}: { isSignedIn: boolean }) {
+export default function Header() {
 
     const placeholderStrings: string[] = ["rice-a-roni", "beef wellington", "beef stew", "chicken noodle soup"]
     const [placeholder, setPlaceholder] = useState(placeholderStrings[0])
@@ -20,13 +21,18 @@ export default function Header({isSignedIn}: { isSignedIn: boolean }) {
     }, [])
 
     return (
-        <div className="flex w-full h-20 bg-red-400 saturate-50 justify-evenly items-center">
-            <h1 className="text-2xl font-bold">Bisque</h1>
-            <div className="flex items-center w-1/2">
+        <div className="flex w-full bg-gradient-to-r from-gray-300 to-red-400 h-20 justify-evenly items-center">
+            <div className="flex flex-row mr-12">
+                <Sidebar/>
+                {/*Sidebar has mr-12 in highest level div*/}
+                <h1 className="text-2xl font-bold">Bisque</h1>
+            </div>
+            <div id="searchbar" className="flex items-center w-1/2">
                 <div className="opacity-70 w-6 h-6 -mr-7 z-20 relative">
                     <SearchIcon/>
                 </div>
-                <input className="z-0 relative py-2.5 pl-9 w-full" value={query} placeholder={placeholder} onChange={handleChange} inputMode={"search"}></input>
+                <input className="z-0 relative py-2.5 pl-9 w-full" value={query} placeholder={placeholder}
+                       onChange={handleChange} inputMode={"search"}></input>
                 <button className={`transition-opacity duration-300 ease-in-out -ml-8 ${
                     query.length === 0 ? "opacity-0" : "opacity-70"
                 }`} onClick={() => setQuery("")}>
@@ -34,11 +40,15 @@ export default function Header({isSignedIn}: { isSignedIn: boolean }) {
                         <XIcon/>
                     </div>
                 </button>
-                <div className="block w-6 h-6 ml-8">
+            </div>
+            <div id="buttons" className="flex items-center justify-evenly ml-12">
+                <div className="block w-6 h-6 cursor-pointer">
                     <NotiIcon/>
                 </div>
+                <div className="block w-6 h-6 ml-10 cursor-pointer">
+                    <PlusIcon/>
+                </div>
             </div>
-            <Sidebar/>
         </div>
     )
 }
