@@ -10,6 +10,7 @@ import UserIcon from '../../../../public/images/user-icon'
 import Link from 'next/link'
 import {usePathname} from 'next/navigation'
 import NewRecipe from '@/app/components/modals/new_recipe/new-recipe'
+import PlusIcon from '../../../../public/images/plus-icon'
 
 export default function Sidebar() {
 
@@ -57,12 +58,21 @@ export default function Sidebar() {
                             </div>
                         </DisclosureButton>
                         <nav className="flex flex-col my-24 mx-3">
-                            <NewRecipe/>
+                            <NewRecipe buttonBody={
+                                <h2 className="text-center flex drop-shadow-sm bg-red-300 my-8 py-6 pl-5 hover:bg-gray-400 hover:saturate-50 hover:cursor-pointer items-center">
+                                    <div className="flex flex-row">
+                                        <div className="w-6 h-6 mr-3">
+                                            <PlusIcon/>
+                                        </div>
+                                        Create new recipe
+                                    </div>
+                                </h2>
+                            }/>
                             {getMenuTile("Home", <SearchIcon/>, "/screens/home")}
                             {getMenuTile("My recipes", <ListIcon/>, "/screens/my-recipes")}
                             {getMenuTile("Account", <UserIcon/>, "/screens/account")}
                             <div className="flex bottom-1 mt-24 w-full flex-row justify-evenly items-center">
-                                <a className="text-sm px-1 underline hover:bg-gray-300 hover:cursor-pointer rounded-sm">About Bisque</a>
+                            <a className="text-sm px-1 underline hover:bg-gray-300 hover:cursor-pointer rounded-sm">About Bisque</a>
                                 <a className="text-sm px-1 underline hover:bg-gray-300 hover:cursor-pointer rounded-sm">Feedback</a>
                             </div>
                         </nav>

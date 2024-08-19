@@ -6,6 +6,7 @@ import XIcon from '../../../../public/images/x-icon'
 import SearchIcon from '../../../../public/images/search-icon'
 import NotiIcon from '../../../../public/images/noti-icon'
 import PlusIcon from '../../../../public/images/plus-icon'
+import NewRecipe from '@/app/components/modals/new_recipe/new-recipe'
 
 export default function Header() {
 
@@ -46,7 +47,9 @@ export default function Header() {
                     <NotiIcon/>
                 </div>
                 <div className="block w-6 h-6 ml-10 cursor-pointer">
-                    <PlusIcon/>
+                    <NewRecipe buttonBody={
+                        <PlusIcon/>
+                    }/>
                 </div>
             </div>
         </div>
