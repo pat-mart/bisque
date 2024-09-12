@@ -7,7 +7,7 @@ export default function RootLayout({
         <div className="overflow-hidden flex flex-col h-screen">
             <div className="overflow-hidden flex flex-col h-full">
                 <Header/>
-                <div className="flex h-full w-full overflow-scroll">{children}</div>
+                <div className="flex h-full w-full overflow-scroll px-3">{children}</div>
             </div>
         </div>
     );

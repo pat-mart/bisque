@@ -1,7 +1,7 @@
 interface Ingredient {
     id: string
     name: string
-    quantity: number
+    measurement: number
     unit: string
     allergens: [string] | null
 }

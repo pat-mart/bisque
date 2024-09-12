@@ -27,7 +27,7 @@ export default function Sidebar() {
     // Keep this collapsed in IDE
     function getMenuTile(text: string, icon: React.JSX.Element, link_route: string) {
         return (
-            <Link href={link_route ?? "/"} onClick={onLinkClick}>
+            <Link href={link_route ?? "/public"} onClick={onLinkClick}>
                 <div className="justify-between items-center">
                     <h2 className={`flex drop-shadow-sm bg-gray-300 ${isActive(link_route) ? "bg-gray-400 saturate-50" : ""} my-8 py-6 pl-5 hover:bg-gray-400 hover:saturate-50 hover:cursor-pointer items-center`}>
                         <div className="block h-6 w-6 mr-3 opacity-60">

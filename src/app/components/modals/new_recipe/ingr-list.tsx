@@ -1,61 +1,138 @@
 'use client'
 
-import PlusIcon from '../../../../../public/images/plus-icon'
-import {useState} from 'react'
+import {ChangeEvent, useCallback, useEffect, useRef, useState} from 'react'
 import MinusIcon from '../../../../../public/images/minus-icon'
-import {v4 as uuid} from 'uuid'
+import PlusIcon from '../../../../../public/images/plus-icon'
+import {uuidv4 as uuid} from '@firebase/util'
+import MeasurementField from '@/app/components/modals/new_recipe/input-fields/measure-field'
+import UnitField from '@/app/components/modals/new_recipe/input-fields/unit-field'
+import NameField from '@/app/components/modals/new_recipe/input-fields/name-field'
 
 export default function IngrList() {
 
-    const [list, setList] = useState<[Ingredient?]>([])
+    const [ingrShown, setIngrShown] = useState<boolean>(true)
+    const [itemData, setItemData] = useState<Ingredient[]>([])
 
-    const addIngredient = () => {
+    const [removedItemId, setRemovedItemId] = useState<string | null>(null)
+
+    // Used to auto scroll to bottom on item add
+    const endListRef = useRef<any>(null)
+
+    const handleAdd = () => {
         const newItem: Ingredient = {
-            id: uuid(),
-            quantity: 0,
+            allergens: [""],
+            measurement: 0,
             name: '',
             unit: '',
-            allergens: null
+            id: uuid()
         }
+        const items = [...itemData, newItem]
+        setItemData(items)
 
-        // @ts-ignore
-        setList([...list, newItem])
+        localStorage.setItem('formData', JSON.stringify(items))
     }
 
-    const removeIngredient = (id: string) => {
-        // @ts-ignore
-        setList(list.filter((ingr) => ingr.id !== id))
+    const handleRemove = (idToRemove: string) => {
+        const items = itemData.filter(item => item.id !== idToRemove)
+        setRemovedItemId(idToRemove)
+
+        setTimeout(() => {
+            setItemData(items)
+            setRemovedItemId(null)
+            localStorage.setItem('formData', JSON.stringify(itemData))
+        }, 250)
     }
 
-    function IngredientRow({ingredient}: {ingredient: Ingredient}) {
+    const handleEdit = useCallback((id: string, field: keyof Ingredient, value: string) => {
+        const items = itemData.map(item =>
+            item.id === id ? {...item, [field]: value} : item
+        )
+
+        setItemData(items)
+        localStorage.setItem('formData', JSON.stringify(items))
+    }, [itemData])
+
+    useEffect(() => {
+        const savedItems = localStorage.getItem('formData')
+        if(savedItems)
+            setItemData(JSON.parse(savedItems))
+    }, [])
+
+    useEffect(() => {
+        localStorage.setItem('formData', JSON.stringify(itemData))
+        if(endListRef.current) {
+            endListRef.current.scrollIntoView({behavior: 'smooth'})
+        }
+    }, [itemData])
+
+    function IngredientRow({ingredient, index}: {ingredient: Ingredient, index: number}) {
         return (
-            <div className="flex flex-row mt-2 h-[5vh] bg-gray-200 align-middle">
-                <button aria-label="Remove this ingredient" onClick={() => {
-                    removeIngredient(ingredient.id)
-                }}>
-                    <div className="w-6 h-6 mr-2">
-                        <MinusIcon/>
+            <>
+                <div className="flex flex-col bg-gray-200 w-full rounded-sm">
+                    <div className="flex flex-row items-center">
+                        <h3 className={"ml-2 mr-1 pb-1 text-xl text-gray-600"}>{index}.</h3>
+                        <NameField inputId={"i" + ingredient.id}
+                                   onEdit={(s: ChangeEvent<HTMLInputElement>) => handleEdit(ingredient.id, 'name', s.target.value)}
+                                   value={ingredient.name}/></div>
+                    <div className="flex flex-row w-full justify-between items-end">
+                        <div className="flex flex-row w-full space-x-3">
+                            <MeasurementField inputId={"m" + ingredient.id} onEdit={(s: ChangeEvent<HTMLInputElement>) => handleEdit(ingredient.id, 'measurement', s.target.value)} value={ingredient.measurement}/>
+                            <UnitField inputId={"u" + ingredient.id} onEdit={(s: ChangeEvent<HTMLInputElement>) => handleEdit(ingredient.id, 'unit', s.target.value)} value={ingredient.unit}/>
+                        </div>
+                        <button className="hover:opacity-70" onClick={() => handleRemove(ingredient.id)}>
+                            <div className="h-7 w-7 mr-4 items-center">
+                                <MinusIcon/>
+                            </div>
+                        </button>
                     </div>
-                </button>
-                <h1>Dummy text</h1>
-            </div>
+                </div>
+            </>
         )
     }
 
     return (
-        <div className="flex mt-2 flex-col">
-            <div className="flex flex-row w-full align-middle">
+        <div id={"ingredients"}>
+            <div className="flex flex-row w-full items-center">
                 <h3 className="text-xl">Ingredients</h3>
-                <button aria-label="Add ingredient"  className="ml-4 w-6 h-6 border-2 overflow-hidden" onClick={addIngredient}><PlusIcon/></button>
+                <button aria-label="Add ingredient" disabled={!ingrShown} // Button to add new ingredient
+                        className={"ml-4 w-6 h-6 border-2 border-gray-300 hover:border-gray-400" + ("")}
+                        onClick={() => {
+                            if(ingrShown) {
+                                handleAdd()
+                            }
+
+                            endListRef.current?.scrollIntoView({behavior: 'smooth'})
+                        }}><PlusIcon/>
+                </button>
+
+                <button aria-label="Hide ingredients list" className="ml-4 text-xl text-gray-400 hover:text-gray-500"
+                        onClick={() => {setIngrShown(!ingrShown)}}>
+                    {ingrShown ? "[hide ingredients]" : "[show ingredients]"}
+                </button>
             </div>
-            <div className="h-[30vh] overflow-scroll">
-                {list === null ? <></> :
-                    <li className={`${list.length === 0 ? `hidden` : ``} transition duration-100 ease-out list-none`}>
-                        {list!.map((ingredient) => {
-                            return <IngredientRow ingredient={ingredient!} key={ingredient!.id}/>
-                        })}
-                    </li>
-                }
+
+            <div className={"flex flex-col align-middle overflow-scroll h-[52vh]"}>
+                <div className="mt-4 overflow-scroll h-full">
+                    {itemData.length === 0 && ingrShown?
+                        <div className={'flex h-[30vh]'}>
+                            <div className={'m-auto font-normal align-middle text-gray-500'}><p>Click the '+' to add an
+                                ingredient!</p></div>
+                        </div>
+                        : // Ingredient list begins
+                        <>
+                            <ol className={`${!ingrShown ? `hidden` : ``} list-none overflow-scroll space-y-3 transition duration-100 ease-in-out`}>
+                                {itemData.map((ingredient, index) => {
+                                    return (
+                                        <li className={`list-none ${ingredient.id === removedItemId ? 'animate-fadeOut' : 'animate-fadeIn'}`} key={ingredient.id} id={ingredient.id}>
+                                            {IngredientRow({ingredient: ingredient, index: index + 1})}
+                                        </li>
+                                    )
+                                })}
+                            </ol>
+                            <li className={"list-none"} ref={endListRef}></li>
+                        </>
+                    }
+                </div>
             </div>
         </div>
     )

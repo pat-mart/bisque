@@ -22,7 +22,7 @@ export default function Modal({
             </Link>
             <Dialog transition open={isShown} onClose={() => {}} className="flex w-screen items-start relative z-50">
                 <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-gray-400 bg-opacity-70">
-                    <DialogPanel className="max-w-full w-[70vw] max-h-full p-10 bg-gray-100" transition>
+                    <DialogPanel className="max-w-full w-[70vw] h-[90vh] max-h-full p-10 bg-gray-100 dark:bg-gray-950" transition>
                         <DialogTitle className="text-2xl font-semibold mb-4">{title}</DialogTitle>
                         <div>{children}</div>
                         <div className="flex gap-5 mt-6">
