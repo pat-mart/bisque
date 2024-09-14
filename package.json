@@ -12,6 +12,7 @@
     "@headlessui/react": "^2.1.2",
     "@reduxjs/toolkit": "^2.2.6",
     "firebase": "^10.13.0",
+    "firebase-admin": "^12.5.0",
     "next": "14.2.4",
     "next-auth": "^4.24.7",
     "next-themes": "^0.3.0",

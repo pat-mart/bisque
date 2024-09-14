@@ -11,6 +11,8 @@ import Link from 'next/link'
 import {usePathname} from 'next/navigation'
 import NewRecipe from '@/app/components/modals/new_recipe/new-recipe'
 import PlusIcon from '../../../../public/images/plus-icon'
+import {useSession} from 'next-auth/react'
+import SignIn from '@/app/components/modals/sign-up/sign-in'
 
 export default function Sidebar() {
 
@@ -23,6 +25,8 @@ export default function Sidebar() {
         if (closeMenuRef.current)
             closeMenuRef.current?.click()
     }
+
+    const {data: session, status} = useSession()
 
     // Keep this collapsed in IDE
     function getMenuTile(text: string, icon: React.JSX.Element, link_route: string) {
@@ -49,15 +53,16 @@ export default function Sidebar() {
                     </div>
                 </DisclosureButton>
                 <DisclosurePanel transition className="origin-left transition duration-200 ease-out ata-[closed]:-translate-y-6 data-[closed]:opacity-0">
-                    <div className="backdrop-blur-md w-1/4 h-screen bg-gray-300 dark:bg-neutral-900 z-20 bg-opacity-70 fixed top-0 left-0 before:backdrop-brightness-50 before:backdrop-blur-md">
+                    <div className="backdrop-blur-md w-1/4 sm:w-4/5 md:w-1/2 h-screen bg-gray-300 dark:bg-neutral-900 z-20 bg-opacity-70 fixed top-0 left-0 before:backdrop-brightness-50 before:backdrop-blur-md">
                         <DisclosureButton ref={closeMenuRef} id="close-menu-button">
                             <div className="absolute opacity-70 right-0 mr-3 mt-6">
-                                <div className="block h-10 w-10">
+                                <div className="block h-8 w-8">
                                     <XIcon/>
                                 </div>
                             </div>
                         </DisclosureButton>
                         <nav className="flex flex-col my-24 mx-3">
+                            {session ?
                             <NewRecipe buttonBody={
                                 <h2 className="text-center rounded-sm flex drop-shadow-sm bg-red-300 dark:bg-purple-500 my-8 py-6 pl-5 hover:bg-gray-400 hover:saturate-50 hover:cursor-pointer items-center">
                                     <div className="flex flex-row">
@@ -67,13 +72,25 @@ export default function Sidebar() {
                                         Create new recipe
                                     </div>
                                 </h2>
-                            }/>
+                            }/> :
+                                <SignIn buttonBody={
+                                    <h2 className="text-center rounded-sm flex drop-shadow-sm bg-red-300 dark:bg-purple-500 my-8 py-6 pl-5 hover:bg-gray-400 hover:saturate-50 hover:cursor-pointer items-center">
+                                        <div className="flex flex-row">
+                                            <div className="w-6 h-6 mr-3">
+                                                <PlusIcon/>
+                                            </div>
+                                            Create new recipe
+                                        </div>
+                                    </h2>
+                                }/>
+                            }
                             {getMenuTile("Home", <SearchIcon/>, "/screens/home")}
                             {getMenuTile("My recipes", <ListIcon/>, "/screens/my-recipes")}
                             {getMenuTile("Account", <UserIcon/>, "/screens/account")}
                             <div className="flex bottom-1 mt-24 w-full flex-row justify-evenly items-center">
-                            <a className="text-sm px-1 underline hover:bg-gray-300 hover:cursor-pointer rounded-sm">About Bisque</a>
-                                <a className="text-sm px-1 underline hover:bg-gray-300 hover:cursor-pointer rounded-sm">Feedback</a>
+                                <a className="text-sm p-1 underline hover:bg-gray-300 hover:cursor-pointer rounded-sm">About
+                                    Bisque</a>
+                                <a className="text-sm p-1 underline hover:bg-gray-300 hover:cursor-pointer rounded-sm">Feedback</a>
                             </div>
                         </nav>
                     </div>
