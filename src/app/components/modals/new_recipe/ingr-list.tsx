@@ -68,7 +68,7 @@ export default function IngrList() {
     function IngredientRow({ingredient, index}: {ingredient: Ingredient, index: number}) {
         return (
             <>
-                <div className="flex flex-col bg-gray-200 w-full rounded-sm">
+                <div className="flex flex-col bg-gray-200 dark:bg-gray-800 w-full rounded-sm">
                     <div className="flex flex-row items-center">
                         <h3 className={"ml-2 mr-1 pb-1 text-xl text-gray-600"}>{index}.</h3>
                         <NameField inputId={"i" + ingredient.id}
@@ -95,12 +95,11 @@ export default function IngrList() {
             <div className="flex flex-row w-full items-center">
                 <h3 className="text-xl">Ingredients</h3>
                 <button aria-label="Add ingredient" disabled={!ingrShown} // Button to add new ingredient
-                        className={"ml-4 w-6 h-6 border-2 border-gray-300 hover:border-gray-400" + ("")}
+                        className={`enabled:ml-4 enabled:w-6 enabled:h-6 enabled:border-2 enabled:border-gray-300 enabled:hover:border-gray-400`}
                         onClick={() => {
                             if(ingrShown) {
                                 handleAdd()
                             }
-
                             endListRef.current?.scrollIntoView({behavior: 'smooth'})
                         }}><PlusIcon/>
                 </button>

@@ -29,7 +29,7 @@ export default function Sidebar() {
         return (
             <Link href={link_route ?? "/public"} onClick={onLinkClick}>
                 <div className="justify-between items-center">
-                    <h2 className={`flex drop-shadow-sm bg-gray-300 ${isActive(link_route) ? "bg-gray-400 saturate-50" : ""} my-8 py-6 pl-5 hover:bg-gray-400 hover:saturate-50 hover:cursor-pointer items-center`}>
+                    <h2 className={`flex drop-shadow-sm rounded-sm bg-gray-300 dark:bg-gray-600 ${isActive(link_route) ? "bg-gray-400 saturate-50" : ""} my-8 py-6 pl-5 hover:bg-gray-400 hover:saturate-50 hover:cursor-pointer items-center`}>
                         <div className="block h-6 w-6 mr-3 opacity-60">
                             {icon}
                         </div>
@@ -49,7 +49,7 @@ export default function Sidebar() {
                     </div>
                 </DisclosureButton>
                 <DisclosurePanel transition className="origin-left transition duration-200 ease-out ata-[closed]:-translate-y-6 data-[closed]:opacity-0">
-                    <div className="backdrop-blur-md w-1/4 h-screen bg-gray-300 z-20 bg-opacity-70 fixed top-0 left-0 before:backdrop-brightness-50 before:backdrop-blur-md">
+                    <div className="backdrop-blur-md w-1/4 h-screen bg-gray-300 dark:bg-neutral-900 z-20 bg-opacity-70 fixed top-0 left-0 before:backdrop-brightness-50 before:backdrop-blur-md">
                         <DisclosureButton ref={closeMenuRef} id="close-menu-button">
                             <div className="absolute opacity-70 right-0 mr-3 mt-6">
                                 <div className="block h-10 w-10">
@@ -59,7 +59,7 @@ export default function Sidebar() {
                         </DisclosureButton>
                         <nav className="flex flex-col my-24 mx-3">
                             <NewRecipe buttonBody={
-                                <h2 className="text-center flex drop-shadow-sm bg-red-300 my-8 py-6 pl-5 hover:bg-gray-400 hover:saturate-50 hover:cursor-pointer items-center">
+                                <h2 className="text-center rounded-sm flex drop-shadow-sm bg-red-300 dark:bg-purple-500 my-8 py-6 pl-5 hover:bg-gray-400 hover:saturate-50 hover:cursor-pointer items-center">
                                     <div className="flex flex-row">
                                         <div className="w-6 h-6 mr-3">
                                             <PlusIcon/>

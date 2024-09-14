@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import {Inter, Open_Sans, Plus_Jakarta_Sans} from "next/font/google";
 import "./globals.css";
-import Header from '@/app/components/header/header'
 import {NextFont} from 'next/dist/compiled/@next/font'
+import {SessionProvider} from 'next-auth/react'
 
 const inter = Inter({ subsets: ["latin"] });
 
