@@ -11,7 +11,6 @@ import Link from 'next/link'
 import {usePathname} from 'next/navigation'
 import NewRecipe from '@/app/components/modals/new_recipe/new-recipe'
 import PlusIcon from '../../../../public/images/plus-icon'
-import {useSession} from 'next-auth/react'
 import SignIn from '@/app/components/modals/sign-up/sign-in'
 
 export default function Sidebar() {
@@ -26,14 +25,12 @@ export default function Sidebar() {
             closeMenuRef.current?.click()
     }
 
-    const {data: session, status} = useSession()
-
     // Keep this collapsed in IDE
     function getMenuTile(text: string, icon: React.JSX.Element, link_route: string) {
         return (
             <Link href={link_route ?? "/public"} onClick={onLinkClick}>
                 <div className="justify-between items-center">
-                    <h2 className={`flex drop-shadow-sm rounded-sm bg-gray-300 dark:bg-gray-600 ${isActive(link_route) ? "bg-gray-400 saturate-50" : ""} my-8 py-6 pl-5 hover:bg-gray-400 hover:saturate-50 hover:cursor-pointer items-center`}>
+                    <h2 className={`flex drop-shadow-sm rounded-sm bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500 ${isActive(link_route) ? "bg-gray-400 saturate-50" : ""} my-8 py-6 pl-5 hover:bg-gray-400 hover:saturate-50 hover:cursor-pointer items-center`}>
                         <div className="block h-6 w-6 mr-3 opacity-60">
                             {icon}
                         </div>
@@ -45,7 +42,7 @@ export default function Sidebar() {
     }
 
     return (
-        <div className="mr-12">
+        <div className="mr-12 relative z-50">
             <Disclosure as="nav">
                 <DisclosureButton className="inline-flex items-center justify-between focus:outline-0 border-opacity-0 hover:opacity-40">
                     <div className="block h-6 w-6" aria-hidden="true">
@@ -53,7 +50,7 @@ export default function Sidebar() {
                     </div>
                 </DisclosureButton>
                 <DisclosurePanel transition className="origin-left transition duration-200 ease-out ata-[closed]:-translate-y-6 data-[closed]:opacity-0">
-                    <div className="backdrop-blur-md w-1/4 sm:w-4/5 md:w-1/2 h-screen bg-gray-300 dark:bg-neutral-900 z-20 bg-opacity-70 fixed top-0 left-0 before:backdrop-brightness-50 before:backdrop-blur-md">
+                    <div className="backdrop-blur-md w-1/4 sm:w-4/5 md:w-1/4 h-screen bg-gray-300 dark:bg-neutral-900 z-20 bg-opacity-70 fixed top-0 left-0 before:backdrop-brightness-50 before:backdrop-blur-md">
                         <DisclosureButton ref={closeMenuRef} id="close-menu-button">
                             <div className="absolute opacity-70 right-0 mr-3 mt-6">
                                 <div className="block h-8 w-8">
@@ -62,7 +59,7 @@ export default function Sidebar() {
                             </div>
                         </DisclosureButton>
                         <nav className="flex flex-col my-24 mx-3">
-                            {session ?
+                            {1 === 1 ? //FIXME
                             <NewRecipe buttonBody={
                                 <h2 className="text-center rounded-sm flex drop-shadow-sm bg-red-300 dark:bg-purple-500 my-8 py-6 pl-5 hover:bg-gray-400 hover:saturate-50 hover:cursor-pointer items-center">
                                     <div className="flex flex-row">
@@ -74,7 +71,7 @@ export default function Sidebar() {
                                 </h2>
                             }/> :
                                 <SignIn buttonBody={
-                                    <h2 className="text-center rounded-sm flex drop-shadow-sm bg-red-300 dark:bg-purple-500 my-8 py-6 pl-5 hover:bg-gray-400 hover:saturate-50 hover:cursor-pointer items-center">
+                                    <h2 className="text-center rounded-sm flex drop-shadow-sm bg-red-300 dark:bg-purple-800 dark:hover:bg-gray-500 my-8 py-6 pl-5 hover:bg-gray-400 hover:saturate-50 hover:cursor-pointer items-center">
                                         <div className="flex flex-row">
                                             <div className="w-6 h-6 mr-3">
                                                 <PlusIcon/>

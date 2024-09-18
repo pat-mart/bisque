@@ -1,9 +1,9 @@
 'use client'
 
 import Modal from '@/app/components/modals/modal'
-import {signIn} from 'next-auth/react'
 import GoogleIcon from '../../../../../public/images/google-icon'
 import {useState} from 'react'
+import Link from 'next/link'
 
 export default function SignIn({buttonBody} : {buttonBody: React.ReactNode}) {
 
@@ -13,20 +13,19 @@ export default function SignIn({buttonBody} : {buttonBody: React.ReactNode}) {
     const [username, setUsername] = useState<string>('')
     const [password, setPassword] = useState<string>('')
 
-    const validUsername = (value: string): boolean => {
+    const validUsername = (): boolean => {
         return usernameRegex.test(username)
     }
 
-    const validPassword = (value: string): boolean => {
+    const validPassword = (): boolean => {
         return passwordRegex.test(password)
     }
+
 
     return (
         <Modal buttonBody={buttonBody} title={"Sign in to Bisque"} urlExtension={'sign-in'}
                buttons={[
-                   ["Sign in", () => {
-                    signIn('google')
-                   }],
+                   ["Sign in", () => {}],
                    ["Cancel", () => {}],
                ]}>
             <div className={"flex flex-col overflow-scroll"}>
@@ -36,8 +35,7 @@ export default function SignIn({buttonBody} : {buttonBody: React.ReactNode}) {
                     <div className="flex flex-col w-full justify-center items-center mt-6 space-y-12">
                         <div className={"items-start space-y-2 w-3/5"}>
                             <h1 className={"text-2xl"}>Email</h1>
-                            <h2 className={"text-md text-gray-500 pb-2"}>Your email username will be your username on Bisque.</h2>
-                            <input className={`p-2 w-full rounded-sm text-xl drop-shadow-sm ${!validUsername(username) && username.length > 0 ? 'bg-red-300 dark:bg-rule-600' : 'bg-white dark:bg-gray-800'}`}
+                            <input className={`p-2 w-full rounded-sm text-xl drop-shadow-sm ${!validUsername() && username.length > 0 ? 'bg-red-300 dark:bg-rule-600' : 'bg-white dark:bg-gray-800'}`}
                                    placeholder={"emailusername@domain.com"} required aria-required
                                    type={"email"} value={username} onChange={s => setUsername(s.target.value)}/>
                         </div>
@@ -45,19 +43,26 @@ export default function SignIn({buttonBody} : {buttonBody: React.ReactNode}) {
                             <h1 className={"text-2xl"}>Password</h1>
                             <h2 className={"text-md text-gray-500 pb-2"}>Must be 8 characters long, contain a special
                                 character, an uppercase and lowercase character, and number</h2>
-                            <input className={`p-2 w-full rounded-sm drop-shadow-sm text-xl ${!validPassword(password) && password !== '' ? 'bg-red-300 dark:bg-rule-600' : 'bg-white dark:bg-gray-800'}`} placeholder={"Password"} required aria-required
+                            <input className={`p-2 w-full rounded-sm drop-shadow-sm text-xl ${!validPassword() && password !== '' ? 'bg-red-300 dark:bg-rule-600' : 'bg-white dark:bg-gray-800'}`} placeholder={"Password"} required aria-required
                                    type={"password"}
                                    pattern={'' + passwordRegex}
                                    value={password}
                                    onChange={s => setPassword(s.target.value)}
                             />
                         </div>
-                        <button className="hover:bg-gray-300 dark:hover:bg-gray-600 bg-gray-200 p-2 rounded-sm drop-shadow-sm w-64 dark:bg-gray-800">
-                            <div className="flex flex-row align-middle w-full justify-start">
-                                <div className="my-auto scale-150 px-2 mr-6 relative z-50"><GoogleIcon/></div>
-                                <h2 className="text-xl md:text-lg sm:text-md">Sign in with Google</h2>
-                            </div>
-                        </button>
+                        <div className="flex flex-row space-x-3 pb-12">
+                            <Link href="/" className="hover:bg-gray-300 dark:hover:bg-gray-600 bg-gray-200 p-3 rounded-sm drop-shadow-sm w-64 md:w-56 sm:w-40 dark:bg-gray-800">
+                                <div className="flex flex-row align-middle w-full justify-start items-center">
+                                    <div className="my-auto scale-150 px-2 relative z-50 mr-2"><GoogleIcon/></div>
+                                    <h2 className="md:text-lg sm:text-sm">Sign in with Google</h2>
+                                </div>
+                            </Link>
+                            <Link href="/screens/sign-up" className="hover:bg-gray-300 dark:hover:bg-gray-600 bg-gray-200 p-3 rounded-sm drop-shadow-sm w-64 md:w-56 sm:w-40 dark:bg-gray-800">
+                                <div className="flex flex-row align-middle w-full justify-center items-center ">
+                                    <h2 className="md:text-lg sm:text-sm font-semibold ">Create new account</h2>
+                                </div>
+                            </Link>
+                        </div>
                     </div>
                 </form>
             </div>
