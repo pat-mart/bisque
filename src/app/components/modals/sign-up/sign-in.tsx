@@ -4,6 +4,8 @@ import Modal from '@/app/components/modals/modal'
 import GoogleIcon from '../../../../../public/images/google-icon'
 import {useState} from 'react'
 import Link from 'next/link'
+import {auth} from '@/api/fb-init'
+import {getAuth, signInWithEmailAndPassword} from '@firebase/auth'
 
 export default function SignIn({buttonBody} : {buttonBody: React.ReactNode}) {
 
@@ -21,11 +23,20 @@ export default function SignIn({buttonBody} : {buttonBody: React.ReactNode}) {
         return passwordRegex.test(password)
     }
 
+    const handleSignIn = async () => {
+        try {
+            const auth = getAuth()!
+            signInWithEmailAndPassword(auth, username, password).then(() => {
+
+            })
+        } catch (e) {
+            console.error(e)
+        }
+    }
 
     return (
         <Modal buttonBody={buttonBody} title={"Sign in to Bisque"} urlExtension={'sign-in'}
                buttons={[
-                   ["Sign in", () => {}],
                    ["Cancel", () => {}],
                ]}>
             <div className={"flex flex-col overflow-scroll"}>
@@ -51,6 +62,11 @@ export default function SignIn({buttonBody} : {buttonBody: React.ReactNode}) {
                             />
                         </div>
                         <div className="flex flex-row space-x-3 pb-12">
+                            <Link href="/" onClick={handleSignIn} className={`hover:bg-gray-300 dark:hover:bg-gray-600 bg-gray-200 p-3 rounded-sm drop-shadow-sm w-64 md:w-56 sm:w-40 dark:bg-gray-800 ${auth ? 'disabled:bg-gray-400 disabled:pointer-events-none aria-disabled:pointer-events-none' : ''}`}>
+                                <div className="flex flex-row align-middle w-full justify-center items-center">
+                                    <h2 className="md:text-lg sm:text-sm">Sign in</h2>
+                                </div>
+                            </Link>
                             <Link href="/" className="hover:bg-gray-300 dark:hover:bg-gray-600 bg-gray-200 p-3 rounded-sm drop-shadow-sm w-64 md:w-56 sm:w-40 dark:bg-gray-800">
                                 <div className="flex flex-row align-middle w-full justify-start items-center">
                                     <div className="my-auto scale-150 px-2 relative z-50 mr-2"><GoogleIcon/></div>

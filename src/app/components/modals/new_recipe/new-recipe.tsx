@@ -3,6 +3,7 @@
 import Modal from '@/app/components/modals/modal'
 import React, {useState} from 'react'
 import IngrList from '@/app/components/modals/new_recipe/ingr-list'
+import StepsList from '@/app/components/modals/new_recipe/steps-list'
 
 export default function NewRecipe({buttonBody} : {buttonBody: React.ReactNode}) {
 
@@ -24,7 +25,7 @@ export default function NewRecipe({buttonBody} : {buttonBody: React.ReactNode}) 
         const num = parseInt(input)
 
         return (Math.round(num / to) * to).toString()
-    } // Collapse
+    }
 
     return (
         <Modal buttonBody={buttonBody} title={"Create new recipe"} urlExtension={'new-recipe'}
@@ -59,6 +60,7 @@ export default function NewRecipe({buttonBody} : {buttonBody: React.ReactNode}) 
                     </div>
                 </div>
                 <IngrList/>
+                <StepsList/>
             </div>
         </Modal>
     )

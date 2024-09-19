@@ -25,7 +25,7 @@ export default function Modal({
             <Transition appear show={query == 'y'} as={Fragment}>
                 <Dialog transition open={overrideIsShown ?? query == 'y'} onClose={() => {
                     router.push("/")
-                }} className="flex w-screen items-start relative z-50 overflow-scroll">
+                }} className="flex w-screen items-start relative z-50">
                     <TransitionChild as={Fragment}
                                      enter="ease-out duration-300"
                                      enterFrom="opacity-0 scale-95"
@@ -33,22 +33,19 @@ export default function Modal({
                                      leave="ease-in duration-200"
                                      leaveFrom="opacity-100 scale-100"
                                      leaveTo="opacity-0 scale-95">
-                        <div
-                            className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-gray-400 dark:bg-gray-900 dark:bg-opacity-60 bg-opacity-70 overflow-scroll">
-                            <DialogPanel
-                                className="max-w-full w-[70vw] sm:w-[90vw] h-[90vh] max-h-full p-10 bg-gray-100 dark:bg-gray-950 rounded-[12px] overflow-scroll"
-                                transition>
+                        <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md bg-gray-400 dark:bg-gray-900 dark:bg-opacity-60 bg-opacity-70">
+                            <DialogPanel className="max-w-full w-[70vw] sm:w-[90vw] h-[90vh] max-h-full p-10 bg-gray-100 dark:bg-gray-950 rounded-[12px] overflow-scroll" transition>
                                 <DialogTitle className="text-4xl font-semibold mb-4">{title}</DialogTitle>
                                 <div className={"overflow-scroll"}>{children}</div>
-                                <div className="absolute flex bottom-[6vh] left-[6vw] gap-5 mt-6 opacity-70">
+                                <div className="flex sticky bottom-0 left-0 gap-5 w-full">
                                     {buttons.map((stringFuncPair, index) => {
                                         return <Link key={index} href={`/`} onClick={
-                                            (e) => {
+                                            e => {
                                                 stringFuncPair[1](e)
                                             }
                                         }
                                         ><h2
-                                            className="text-lg dark:bg-gray-800 text-gray-800 dark:text-gray-300 dark:hover:bg-gray-600 bg-gray-200 p-2 rounded-sm hover:bg-gray-300">{stringFuncPair[0]}</h2>
+                                            className="text-xl dark:bg-gray-800 backdrop-blur-xl text-gray-800 dark:text-gray-300 dark:hover:bg-gray-600 bg-gray-300 p-2 rounded-sm hover:bg-gray-300">{stringFuncPair[0]}</h2>
                                         </Link>
                                     })}
                                 </div>

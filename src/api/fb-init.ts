@@ -9,7 +9,7 @@ import {getFirestore} from '@firebase/firestore'
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
-const firebaseConfig = {
+export const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY,
     authDomain: process.env.NEXT_PUBLIC_GOOGLE_AUTH_DOMAIN,
     projectId: "bisque-dff04",
@@ -20,8 +20,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-export const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-export const analytics = getAnalytics(app);
+export const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app)
 export const db = getFirestore(app)

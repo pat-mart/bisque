@@ -9,11 +9,14 @@ import PlusIcon from '../../../../public/images/plus-icon'
 import NewRecipe from '@/app/components/modals/new_recipe/new-recipe'
 import SignIn from '@/app/components/modals/sign-up/sign-in'
 import UserIcon from '../../../../public/images/user-icon'
+import {getAuth} from '@firebase/auth'
 
 export default function Header() {
 
     const [query, setQuery] = useState('')
     const handleChange = (s: any) => setQuery(s.target.value)
+
+    const auth = getAuth()
 
     return (
         <div className="flex w-full bg-red-300 dark:bg-purple-900 h-20 justify-evenly items-center">
@@ -41,7 +44,7 @@ export default function Header() {
                     <Link href={"/screens/account"}><UserIcon/></Link>
                 </div>
                 <div className="block w-6 h-6 ml-10 cursor-pointer">
-                    {false ? ( //FIXME
+                    {auth ? ( //FIXME
                         <NewRecipe buttonBody={
                             <PlusIcon/>
                         }/>
