@@ -37,7 +37,10 @@ export default function SignIn({buttonBody} : {buttonBody: React.ReactNode}) {
     return (
         <Modal buttonBody={buttonBody} title={"Sign in to Bisque"} urlExtension={'sign-in'}
                buttons={[
-                   ["Cancel", () => {}],
+                   ["Cancel", () => {
+                        setUsername('')
+                       setPassword('')
+                   }],
                ]}>
             <div className={"flex flex-col overflow-scroll"}>
                 <form>

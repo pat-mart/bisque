@@ -4,6 +4,9 @@ import Modal from '@/app/components/modals/modal'
 import React, {useState} from 'react'
 import IngrList from '@/app/components/modals/new_recipe/ingr-list'
 import StepsList from '@/app/components/modals/new_recipe/steps-list'
+import {doc, setDoc} from '@firebase/firestore'
+import {db} from '@/api/fb-init'
+import DescriptionArea from '@/app/components/modals/new_recipe/desc-area'
 
 export default function NewRecipe({buttonBody} : {buttonBody: React.ReactNode}) {
 
@@ -27,6 +30,15 @@ export default function NewRecipe({buttonBody} : {buttonBody: React.ReactNode}) 
         return (Math.round(num / to) * to).toString()
     }
 
+    const saveDraft = async() => {
+        let ingrData = localStorage.getItem('ingrFormData')
+        let stepData = localStorage.getItem('stepFormData')
+
+        await setDoc(doc(db, "recipes"), {
+
+        })
+    }
+
     return (
         <Modal buttonBody={buttonBody} title={"Create new recipe"} urlExtension={'new-recipe'}
            buttons={[
@@ -39,7 +51,7 @@ export default function NewRecipe({buttonBody} : {buttonBody: React.ReactNode}) 
                 <div className="flex mt-4 justify-start align-middle gap-x-4 mb-4">
                     <div className="mt-2">
                         <h3 className="text-gray-400 mb-1 dark:text-gray-200">Prep time (min)</h3>
-                        <input className="p-2 pl-1 w-[40%] bg-gray-100 dark:bg-gray-700 rounded-sm" placeholder="30" value={prepTime} type="number" max="999"
+                        <input className="p-2 pl-1 ml-1 mt-1 w-[40%] bg-gray-100 dark:bg-gray-700 rounded-sm" placeholder="30" value={prepTime} type="number" max="999"
                                onChange={(s) => setPrepTime(s.target.value)}
                                onBlur={(s) => setPrepTime(validateAndRound(prepTime, 5))}
                         />
@@ -59,6 +71,7 @@ export default function NewRecipe({buttonBody} : {buttonBody: React.ReactNode}) 
                         />
                     </div>
                 </div>
+                <DescriptionArea/>
                 <IngrList/>
                 <StepsList/>
             </div>

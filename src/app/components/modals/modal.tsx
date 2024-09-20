@@ -37,15 +37,15 @@ export default function Modal({
                             <DialogPanel className="max-w-full w-[70vw] sm:w-[90vw] h-[90vh] max-h-full p-10 bg-gray-100 dark:bg-gray-950 rounded-[12px] overflow-scroll" transition>
                                 <DialogTitle className="text-4xl font-semibold mb-4">{title}</DialogTitle>
                                 <div className={"overflow-scroll"}>{children}</div>
-                                <div className="flex sticky bottom-0 left-0 gap-5 w-full">
+                                <div className="absolute bottom-4 left-16 gap-5 border-3 p-2 flex flex-row border-4 backdrop-blur-md rounded-md border-red-400">
                                     {buttons.map((stringFuncPair, index) => {
-                                        return <Link key={index} href={`/`} onClick={
+                                        return <Link key={index} href={`/`} className={"w-min dark:hover:bg-gray-700 hover:bg-gray-400 rounded-md"} onClick={
                                             e => {
                                                 stringFuncPair[1](e)
                                             }
                                         }
                                         ><h2
-                                            className="text-xl dark:bg-gray-800 backdrop-blur-xl text-gray-800 dark:text-gray-300 dark:hover:bg-gray-600 bg-gray-300 p-2 rounded-sm hover:bg-gray-300">{stringFuncPair[0]}</h2>
+                                            className="text-xl w-max dark:bg-gray-800 backdrop-blur-xl text-gray-800 dark:text-gray-300 bg-gray-300 p-2 rounded-sm hover:bg-gray-400">{stringFuncPair[0]}</h2>
                                         </Link>
                                     })}
                                 </div>

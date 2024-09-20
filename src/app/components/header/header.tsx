@@ -18,6 +18,8 @@ export default function Header() {
 
     const auth = getAuth()
 
+    console.log(auth.currentUser)
+
     return (
         <div className="flex w-full bg-red-300 dark:bg-purple-900 h-20 justify-evenly items-center">
             <div className="flex flex-row mr-12">
@@ -44,7 +46,7 @@ export default function Header() {
                     <Link href={"/screens/account"}><UserIcon/></Link>
                 </div>
                 <div className="block w-6 h-6 ml-10 cursor-pointer">
-                    {auth ? ( //FIXME
+                    {auth.currentUser != null ? (
                         <NewRecipe buttonBody={
                             <PlusIcon/>
                         }/>
